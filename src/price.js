@@ -5,25 +5,25 @@
 import { ethers } from "ethers";
 import * as dx from "./dexes.js";
 
-const tokenABI = require("./abi/token.json");
-const factoryABI = require("./abi/factory.json");
-const routerABI = require("./abi/router.json");
-const pairABI = require("./abi/pairs.json");
-let token_address = {
-  FTM: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
-  LQDR: "0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9",
-  ETH: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
-  DAI: "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e",
-  SPA: "0x5602df4a94eb6c680190accfa2a475621e0ddbdc",
-  WBTC: "0x321162Cd933E2Be498Cd2267a90534A804051b11"
-};
+//const tokenABI = require("./abi/token.json");
+//const factoryABI = require("./abi/factory.json");
+//const routerABI = require("./abi/router.json");
+//const pairABI = require("./abi/pairs.json");
+//let token_address = {
+//  FTM: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
+//  LQDR: "0x10b620b2dbac4faa7d7ffd71da486f5d44cd86f9",
+//  ETH: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
+//  DAI: "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e",
+//  SPA: "0x5602df4a94eb6c680190accfa2a475621e0ddbdc",
+//  WBTC: "0x321162Cd933E2Be498Cd2267a90534A804051b11"
+//};
 const weth_decimal = 18;
-const weth_address = ethers.utils.getAddress(token_address["FTM"]);
+const weth_address = ethers.utils.getAddress(dx.token_address["FTM"]);
 const verbose = false;
 
 async function getAskPrice(eth_in, pair_address, factory, router, conn) {
   // eth_in: input amount of tokens, ether or platform coin
-  const pair_contract = new ethers.Contract(pair_address, pairABI, conn);
+  const pair_contract = new ethers.Contract(pair_address, dx.pairABI, conn);
   var ask_price_ftm = "none";
   try {
     const token0_address = await pair_contract.token0();
@@ -40,12 +40,16 @@ async function getAskPrice(eth_in, pair_address, factory, router, conn) {
       return "Error matching eth equivalent";
     }
 
-    const token_contract = new ethers.Contract(token_address, tokenABI, conn);
+    const token_contract = new ethers.Contract(
+      token_address,
+      dx.tokenABI,
+      conn
+    );
     const token_decimal = await token_contract.decimals();
     const eth_in_wei = ethers.utils.parseUnits(eth_in);
     const factor = Math.pow(10, weth_decimal) / Math.pow(10, token_decimal);
 
-    const router_contract = new ethers.Contract(router, routerABI, conn);
+    const router_contract = new ethers.Contract(router, dx.routerABI, conn);
 
     const amount_out_token = await router_contract.getAmountsOut(eth_in_wei, [
       weth_address,
@@ -77,7 +81,7 @@ async function getAskPrice(eth_in, pair_address, factory, router, conn) {
 }
 
 async function getBidPrice(token_in, pair_address, factory, router, conn) {
-  const pair_contract = new ethers.Contract(pair_address, pairABI, conn);
+  const pair_contract = new ethers.Contract(pair_address, dx.pairABI, conn);
   var bid_price_ftm = "none";
   //const pair_decimals = await pair_contract.decimals();
   // check which token is the platform coin which is
@@ -99,11 +103,15 @@ async function getBidPrice(token_in, pair_address, factory, router, conn) {
       return "Error matching eth equivalent";
     }
 
-    const token_contract = new ethers.Contract(token_address, tokenABI, conn);
+    const token_contract = new ethers.Contract(
+      token_address,
+      dx.tokenABI,
+      conn
+    );
     const token_decimal = await token_contract.decimals();
     const factor = Math.pow(10, weth_decimal) / Math.pow(10, token_decimal);
 
-    const router_contract = new ethers.Contract(router, routerABI, conn);
+    const router_contract = new ethers.Contract(router, dx.routerABI, conn);
     // don't do this
     //const tokens_in_wei = token_in * Math.pow(10, token_decimal);
     // do this
@@ -137,7 +145,7 @@ async function getBidPrice(token_in, pair_address, factory, router, conn) {
 
 async function getAskBidPrice(eth_in, pair_address, factory, router, conn) {
   // eth_in: input amount of tokens, ether or platform coin
-  const pair_contract = new ethers.Contract(pair_address, pairABI, conn);
+  const pair_contract = new ethers.Contract(pair_address, dx.pairABI, conn);
   var ask_price_ftm = "none";
   var bid_price_ftm = "none";
   //const pair_decimals = await pair_contract.decimals();
@@ -160,12 +168,16 @@ async function getAskBidPrice(eth_in, pair_address, factory, router, conn) {
       return "Error matching eth equivalent";
     }
 
-    const token_contract = new ethers.Contract(token_address, tokenABI, conn);
+    const token_contract = new ethers.Contract(
+      token_address,
+      dx.tokenABI,
+      conn
+    );
     const token_decimal = await token_contract.decimals();
     const eth_in_wei = ethers.utils.parseUnits(eth_in);
     const factor = Math.pow(10, weth_decimal) / Math.pow(10, token_decimal);
 
-    const router_contract = new ethers.Contract(router, routerABI, conn);
+    const router_contract = new ethers.Contract(router, dx.routerABI, conn);
 
     // First call: for a given token0 input, find how much token1 we get out
     const amount_out_token = await router_contract.getAmountsOut(eth_in_wei, [

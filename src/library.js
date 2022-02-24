@@ -1,5 +1,8 @@
 import { ethers } from "ethers";
-const tokenABI = require("./abi/token.json");
+
+import fs from "fs";
+const tokenABI = JSON.parse(fs.readFileSync("./src/abi/token.json", "utf8"));
+//import tokenABI from "./abi/token.json";
 
 var ftm_main_url = "https://rpc.ftm.tools/";
 

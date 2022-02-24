@@ -1,9 +1,27 @@
 import { ethers } from "ethers";
-//const ethers = require("ethers");
-const tokenABI = require("./abi/token.json");
-const factoryABI = require("./abi/factory.json");
-const routerABI = require("./abi/router.json");
-const pairABI = require("./abi/pairs.json");
+import fs from "fs";
+import tokenABI from "./abi/token.json";
+import factoryABI from "./abi/factory.json";
+import routerABI from "./abi/router.json";
+import pairABI from "./abi/pairs.json";
+//import { createRequire } from 'module';
+
+//REQUIRE METHOD
+//const require = createRequire(import.meta.url);
+//const tokenABI = require("./abi/token.json");
+//const factoryABI = require("./abi/factory.json");
+//const routerABI = require("./abi/router.json");
+//const pairABI = require("./abi/pairs.json");
+
+// FILE READ METHOD
+//const tokenABI = JSON.parse(fs.readFileSync("./src/abi/token.json"));
+//const tokenABI = fs.readFileSync("./src/abi/token.json");
+//var parsed= JSON.parse(fs.readFileSync(jsonFile));
+//const factoryABI = JSON.parse(
+//  fs.readFileSync("./src/abi/factory.json", "utf8")
+//);
+//const routerABI = JSON.parse(fs.readFileSync("./src/abi/router.json", "utf8"));
+//const pairABI = JSON.parse(fs.readFileSync("./src/abi/pairs.json", "utf8"));
 
 var ftm_main_url = "https://rpc.ftm.tools/";
 
@@ -69,9 +87,9 @@ async function getFTMReservesPrice(token_address, factory, conn) {
     token_address,
     weth_address
   );
+  const pair_contract = new ethers.Contract(pair_address, pairABI, conn);
   const token0_address = pair_contract.token0();
   const token1_address = pair_contract.token1();
-  const pair_contract = new ethers.Contract(pair_address, pairABI, conn);
   try {
     reserves = await pair_contract.getReserves();
   } catch (err) {
@@ -165,5 +183,9 @@ export {
   weth_address,
   weth_decimal,
   get_connection,
-  getPair
+  getPair,
+  tokenABI,
+  pairABI,
+  factoryABI,
+  routerABI
 };

@@ -3,18 +3,12 @@ import "./display.css";
 
 import React from "react";
 import { ethers } from "ethers";
-//import { createRequire } from "module";
-//const require = createRequire(import.meta.url);
-//const el = require("./elements");
 import * as el from "./elements.js";
-//import * as dx from "./dexes.js";
-//import lib from "./library.js";
-//const dx = require("./dexes");
+import * as dx from "./dexes.js";
 
 var ftm_main_url = "https://rpc.ftm.tools/";
 
 //const weth_address = ethers.utils.getAddress(dx.token_address["FTM"]);
-const weth_decimal = 18;
 var eth_in = "1";
 
 function get_connection() {
@@ -45,25 +39,16 @@ async function getSwap(token0, token1, dexa, dexb, conn) {
     return "NO DATA";
   }
 }
-//      token0_symbol: pq.token0_symbol,
-//      token1_symbol: pq.token1_symbol,
-//      ask_price: "NA",
-//      bid_price: "NA",
-//      token_out: "NA",
-//      eth_in: "NA",
-//      token_in: "NA",
-//      eth_out: "NA",
-//      dex_ask: pq.dex_ask,
-//      dex_bid: pq.dex_bid
-//<li> <%= iti.dex_ask %> <%= iti.dex_bid%> <%= iti.token1_symbol%> <%= iti.eth_out%>
+
 const DisplaySwap = ({ token0, token1, dexa, dexb, conn }) => {
   const [swap, setSwap] = React.useState(0);
   console.log(swap);
   React.useEffect(() => {
     getSwap(token0, token1, dexa, dexb, conn).then((swap) => {
+      console.log(swap);
       setSwap(swap);
     });
-  }, [token0, token1, dexa, dexb]);
+  }, [token0, token1, dexa, dexb, conn]);
   return (
     <div>
       {swap.token0_symbol} {swap.dex_ask} : {swap.token1_symbol} {swap.dex_bid}{" "}
@@ -79,6 +64,7 @@ export default function ArbApp() {
   const [dexa, setDexa] = React.useState("spooky");
   const [dexb, setDexb] = React.useState("spirit");
   const brightness = isLit ? "lit" : "dark";
+  console.log(dx.tokenABI);
   return (
     <div className={`App ${brightness}`}>
       <div align="left">
