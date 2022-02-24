@@ -1,9 +1,13 @@
 // Data and objects for display on page
+// dex_ask is where we buy
+// dex_bid is where we sell
 const dx = require("./dexes");
 const px = require("./price");
+const sl = require("./swaplist");
 var conn = dx.get_connection();
 var eth_in = "1";
 
+// A template list of swap requests
 let swap_requests = [
   {
     eth_in: eth_in,
@@ -27,52 +31,8 @@ let swap_requests = [
   }
 ];
 
-function newElement(symbol, flip = false, dexa = "spooky", dexb = "spirit") {
-  if (flip) {
-    return {
-      eth_in: eth_in,
-      dex_ask: dexa,
-      dex_bid: dexb,
-      token0_symbol: "FTM",
-      token1_symbol: symbol,
-      token0_address: dx.token_address["FTM"],
-      token1_address: dx.token_address[symbol],
-      conn
-    };
-  } else {
-    return {
-      eth_in: eth_in,
-      dex_ask: dexb,
-      dex_bid: dexa,
-      token0_symbol: "FTM",
-      token1_symbol: symbol,
-      token0_address: dx.token_address["FTM"],
-      token1_address: dx.token_address[symbol],
-      conn
-    };
-  }
-}
-
-function getSwapList(tokens) {
-  var swap_list = [];
-  for (const element of tokens) {
-    swap_list.push(newElement(element));
-    swap_list.push(newElement(element, true));
-    swap_list.push(newElement(element, false, "spirit", "proto"));
-    swap_list.push(newElement(element, true, "spirit", "proto"));
-    swap_list.push(newElement(element, false, "spooky", "proto"));
-    swap_list.push(newElement(element, true, "spooky", "proto"));
-    swap_list.push(newElement(element, false, "spirit", "morph"));
-    swap_list.push(newElement(element, true, "spirit", "morph"));
-    swap_list.push(newElement(element, false, "spooky", "morph"));
-    swap_list.push(newElement(element, true, "spooky", "morph"));
-    console.log(element);
-  }
-  //console.log(swap_requests);
-  return swap_list;
-}
-
 // ASK
+// pq is a swap request
 async function getSwapPrice(pq) {
   try {
     const ask_factory = dx.factory_address[pq.dex_ask];
@@ -158,6 +118,5 @@ module.exports = {
   getSwapPrice: getSwapPrice,
   getPriceDumb: getPriceDumb,
   getSwaps: getSwaps,
-  swap_requests: swap_requests,
-  getSwapList: getSwapList
+  swap_requests: swap_requests
 };

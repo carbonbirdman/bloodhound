@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 
 import App from "./App";
+import ArbApp from "./ArbApp";
 
 //const rootElement = document.getElementById("root");
 //ReactDOM.render(
@@ -10,4 +11,5 @@ import App from "./App";
 // </StrictMode>,
 // rootElement
 //);
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<ArbApp />, document.getElementById("root"));
+//ReactDOM.render(<App />, document.getElementById("root"));
