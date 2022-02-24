@@ -1,8 +1,10 @@
 //Returns bid price, ask price.
 //Bid price is how much they will give you in fantom for the token.
 //Ask price is how much fantom you need to give for the token.
-const ethers = require("ethers");
-const dx = require("./dexes");
+
+import { ethers } from "ethers";
+import * as dx from "./dexes.js";
+
 const tokenABI = require("./abi/token.json");
 const factoryABI = require("./abi/factory.json");
 const routerABI = require("./abi/router.json");
@@ -133,12 +135,6 @@ async function getBidPrice(token_in, pair_address, factory, router, conn) {
   }
 }
 
-module.exports = {
-  getAskBidPrice: getAskBidPrice,
-  getAskPrice: getAskPrice,
-  getBidPrice: getBidPrice
-};
-
 async function getAskBidPrice(eth_in, pair_address, factory, router, conn) {
   // eth_in: input amount of tokens, ether or platform coin
   const pair_contract = new ethers.Contract(pair_address, pairABI, conn);
@@ -211,3 +207,5 @@ async function getAskBidPrice(eth_in, pair_address, factory, router, conn) {
   //return(bid_price_wei, ask_price_wei, ask_price_ftm, bid_price_ftm)
   return { ask_price_ftm: ask_price_ftm, bid_price_ftm: bid_price_ftm };
 }
+
+export { getAskPrice, getBidPrice, getAskBidPrice };

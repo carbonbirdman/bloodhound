@@ -3,12 +3,17 @@ import "./display.css";
 
 import React from "react";
 import { ethers } from "ethers";
-const el = require("./elements");
-const dx = require("./dexes");
+//import { createRequire } from "module";
+//const require = createRequire(import.meta.url);
+//const el = require("./elements");
+import * as el from "./elements.js";
+//import * as dx from "./dexes.js";
+//import lib from "./library.js";
+//const dx = require("./dexes");
 
 var ftm_main_url = "https://rpc.ftm.tools/";
 
-const weth_address = ethers.utils.getAddress(dx.token_address["FTM"]);
+//const weth_address = ethers.utils.getAddress(dx.token_address["FTM"]);
 const weth_decimal = 18;
 var eth_in = "1";
 
@@ -101,3 +106,7 @@ export default function ArbApp() {
     </div>
   );
 }
+
+//export default function ArbApp() {
+// console.log("success");
+///}

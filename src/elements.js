@@ -1,9 +1,16 @@
 // Data and objects for display on page
 // dex_ask is where we buy
 // dex_bid is where we sell
-const dx = require("./dexes");
-const px = require("./price");
-const sl = require("./swaplist");
+//const dx = require("./dexes");
+//const px = require("./price");
+//const sl = require("./swaplist");
+
+import * as dx from "./dexes.js";
+import * as px from "./price.js";
+import * as sl from "./swaplist.js";
+//import px from "./price.js";
+//import sl from "./swaplist.js";
+
 var conn = dx.get_connection();
 var eth_in = "1";
 
@@ -114,9 +121,4 @@ async function getSwaps(sreqs) {
   return await Promise.all(sreqs.map(async (sreq) => await getSwapPrice(sreq)));
 }
 
-module.exports = {
-  getSwapPrice: getSwapPrice,
-  getPriceDumb: getPriceDumb,
-  getSwaps: getSwaps,
-  swap_requests: swap_requests
-};
+export { getSwapPrice, getSwaps };

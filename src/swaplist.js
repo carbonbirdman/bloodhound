@@ -1,6 +1,9 @@
 // convenient JSON data structures for arb searches
-const dx = require("./dexes");
-const px = require("./price");
+//const dx = require("./dexes");
+//const px = require("./price");
+import * as px from "./price.js";
+import * as dx from "./dexes.js";
+
 var conn = dx.get_connection();
 var eth_in = "1";
 
@@ -52,6 +55,4 @@ function getSwapList(tokens) {
   return swap_list;
 }
 
-module.exports = {
-  getSwapList: getSwapList
-};
+export { getSwapList };

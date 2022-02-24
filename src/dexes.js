@@ -1,5 +1,5 @@
-//import { ethers } from "ethers";
-const ethers = require("ethers");
+import { ethers } from "ethers";
+//const ethers = require("ethers");
 const tokenABI = require("./abi/token.json");
 const factoryABI = require("./abi/factory.json");
 const routerABI = require("./abi/router.json");
@@ -156,13 +156,14 @@ async function test_dex() {
   getReservesPrice(token0_address, token1_address, factory, conn);
 }
 
-//exports.token_address = token_address;
-module.exports = {
-  get_connection: get_connection,
-  test_dex: test_dex,
-  token_address: token_address,
-  router_address: router_address,
-  factory_address: factory_address,
-  getReservesPrice: getReservesPrice,
-  getPair: getPair
+export {
+  getReservesPrice,
+  getFTMReservesPrice,
+  factory_address,
+  token_address,
+  router_address,
+  weth_address,
+  weth_decimal,
+  get_connection,
+  getPair
 };
