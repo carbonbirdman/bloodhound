@@ -41,7 +41,7 @@ function get_connection() {
 
 var conn = get_connection();
 
-async function getPair(token0_address, token1_address, factory, conn) {
+async function getPairContract(token0_address, token1_address, factory, conn) {
   const factory_contract = new ethers.Contract(factory, factoryABI, conn);
   const pair_address = await factory_contract.getPair(
     token0_address,
@@ -112,9 +112,11 @@ const DisplayPair = ({ token, factory, conn }) => {
   const [reserves, setReserves] = React.useState(0);
   console.log(pair);
   React.useEffect(() => {
-    getPair(token_address[token], weth_address, factory, conn).then((pair) => {
-      setPair(pair);
-    });
+    getPairContract(token_address[token], weth_address, factory, conn).then(
+      (pair) => {
+        setPair(pair);
+      }
+    );
     getReserves(token_address[token], factory, conn).then((reserves) => {
       setReserves(reserves);
     });

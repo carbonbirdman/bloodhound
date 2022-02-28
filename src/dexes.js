@@ -164,6 +164,45 @@ async function getReservesPrice(token0_address, token1_address, factory, conn) {
   //}
 }
 
+async function getReserves(token0_address, token1_address, factory, conn) {
+  const token0_contract = new ethers.Contract(token0_address, tokenABI, conn);
+  const token1_contract = new ethers.Contract(token1_address, tokenABI, conn);
+  var reserves = false;
+  console.log(token0_contract);
+
+  const token0_decimal = await token0_contract.decimals();
+  const token1_decimal = await token1_contract.decimals();
+  const factor = Math.pow(10, token0_decimal) / Math.pow(10, token1_decimal);
+  console.log(token1_decimal);
+  console.log(token0_decimal);
+  const factory_contract = new ethers.Contract(factory, factoryABI, conn);
+  const pair_address = await factory_contract.getPair(
+    token0_address,
+    token1_address
+  );
+  console.log(pair_address);
+  const pair_contract = new ethers.Contract(pair_address, pairABI, conn);
+  console.log(pair_contract);
+  try {
+    reserves = await pair_contract.getReserves();
+  } catch (err) {
+    //return reserves;
+  }
+  if (reserves) {
+    console.log("Reserves");
+    console.log(reserves);
+    console.log(reserves[0]);
+    const reserves_price = reserves[0] / reserves[1] / factor;
+    var reserves0 = reserves[0];
+    var reserves1 = reserves[1];
+    var reserveout = { reserves0, reserves1, reserves_price };
+    return reserveout;
+  } else {
+    console.log("Error obtaining reserves");
+    return "X";
+  }
+}
+
 async function test_dex() {
   var conn = get_connection();
   var dex = "spooky";
