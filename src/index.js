@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 
-import App from "./App";
+import App from "./ArbApp";
 //import App from "./MultiArbApp";
 
 //const rootElement = document.getElementById("root");

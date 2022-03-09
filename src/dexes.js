@@ -27,7 +27,7 @@ var ftm_main_url = "https://rpc.ftm.tools/";
 
 let factory_address = {
   spooky: "0x152eE697f2E276fA89E96742e9bB9aB1F2E61bE3",
-  spirit: "0x991152411A7B5A14A8CF0cDDE8439435328070dF",
+  spirit: "0xEF45d134b73241eDa7703fa787148D9C9F4950b0",
   proto: "0x39720E5Fe53BEEeb9De4759cb91d8E7d42c17b76",
   morph: "0x9C454510848906FDDc846607E4baa27Ca999FBB6"
 };
